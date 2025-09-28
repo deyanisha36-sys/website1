@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cart - T-Shirt Store</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: url('assets/background.png') no-repeat center center fixed;
+      background-size: cover;
+      color: #333;
+      margin: 0;
+    }
+    header {
+      background: rgba(0,0,0,0.7);
+      color: #fff;
+      padding: 15px 20px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+    header h1 { margin: 0; font-size: 1.8rem; }
+    nav a { color: #fff; margin-left: 15px; text-decoration: none; font-weight: 600; transition: 0.3s; }
+    nav a:hover { color: #ffcc00; }
+
+    .hero-section {
+      text-align: center;
+      padding: 100px 20px;
+      background: rgba(255,255,255,0.1);
+    }
+    .hero-section h1 { font-size: 2.8rem; color: #fff; margin-bottom: 20px; text-shadow: 2px 2px 8px rgba(0,0,0,0.6); }
+    .hero-section p { font-size: 1.2rem; color: #eee; margin-bottom: 30px; }
+
+    .grid { display: flex; flex-direction: column; gap: 20px; max-width: 600px; margin: 0 auto; }
+    .card { background: #fff; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.1); padding: 20px; text-align: center; transition: 0.3s; }
+    .card:hover { transform: translateY(-5px); box-shadow: 0 4px 20px rgba(0,0,0,0.2); }
+    .card img { max-width: 150px; border-radius: 8px; margin-bottom: 15px; }
+
+    .btn { display: inline-block; padding: 10px 20px; margin: 5px; font-size: 0.9rem; font-weight: 600; color: #fff; background: #333; border-radius: 8px; text-decoration: none; transition: 0.3s; }
+    .btn:hover { background: #ffcc00; color: #000; }
+
+    footer { text-align: center; padding: 20px; background: rgba(0,0,0,0.7); color: #fff; margin-top: 50px; }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>T-Shirt Store</h1>
+  <nav>
+    <a href="index.html">Home</a>
+    <a href="designer.html">Designer</a>
+    <a href="shop.html">Shop</a>
+    <a href="blog.html">Blog</a>
+    <a href="cart.html">Cart 🛒</a>
+  </nav>
+</header>
+
+<section class="hero-section">
+  <h1>Your Cart</h1>
+  <p>Review your selected T-shirts and proceed to checkout.</p>
+</section>
+
+<section class="featured-products">
+  <h2>Cart Items</h2>
+  <div class="grid" id="cartItems">
+    <!-- JS will populate cart items -->
+  </div>
+</section>
+
+<section class="featured-products">
+  <h2>Checkout</h2>
+  <div class="grid" style="max-width:500px; margin: 0 auto;">
+    <form id="checkoutForm">
+      <label for="name">Full Name:</label>
+      <input type="text" id="name" required placeholder="John Doe" style="padding:10px; width:100%; margin-bottom:10px; border-radius:5px;">
+      
+      <label for="email">Email:</label>
+      <input type="email" id="email" required placeholder="example@mail.com" style="padding:10px; width:100%; margin-bottom:10px; border-radius:5px;">
+      
+      <label for="address">Address:</label>
+      <textarea id="address" required placeholder="Your shipping address" style="padding:10px; width:100%; margin-bottom:10px; border-radius:5px;"></textarea>
+      
+      <button class="btn" type="submit">Place Order</button>
+    </form>
+  </div>
+</section>
+
+<script>
+  const checkoutForm = document.getElementById("checkoutForm");
+  checkoutForm.addEventListener("submit", function(e){
+    e.preventDefault();
+    alert("✅ Order Placed Successfully!");
+    localStorage.removeItem("cart");
+    location.reload();
+  });
+</script>
+
+<footer>
+  &copy; 2025 T-Shirt Store
+</footer>
+
+<script>
+  let cart = JSON.parse(localStorage.getItem("cart")) || [];
+  const cartGrid = document.getElementById("cartItems");
+
+  if(cart.length === 0) {
+    cartGrid.innerHTML = `<p style="color:#333;">Your cart is empty.</p>`;
+  } else {
+    cart.forEach((item, index) => {
+      cartGrid.innerHTML += `
+        <div class="card">
+          <img src="${item.image}" alt="${item.name}">
+          <h3>${item.name}</h3>
+          <p>₹${item.price}</p>
+          <button class="btn" onclick="removeItem(${index})">Remove</button>
+        </div>
+      `;
+    });
+  }
+
+  function removeItem(index) {
+    cart.splice(index, 1);
+    localStorage.setItem("cart", JSON.stringify(cart));
+    location.reload();
+  }
+</script>
+
+</body>
+</html>

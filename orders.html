@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders — Admin Panel</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 20px;
+      background: #f4f4f4;
+    }
+    h1 {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .orders {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    .order {
+      border-bottom: 1px solid #ddd;
+      padding: 15px 0;
+    }
+    .order:last-child {
+      border-bottom: none;
+    }
+    .order h2 {
+      margin: 0;
+      font-size: 18px;
+      color: #333;
+    }
+    .customer {
+      margin: 10px 0;
+      font-size: 14px;
+      color: #555;
+    }
+    .items {
+      margin-left: 20px;
+    }
+    .items li {
+      margin-bottom: 5px;
+    }
+    .total {
+      font-weight: bold;
+      margin-top: 10px;
+      color: #000;
+    }
+    .date {
+      font-size: 12px;
+      color: #888;
+    }
+    .no-orders {
+      text-align: center;
+      font-size: 16px;
+      color: #666;
+    }
+  </style>
+</head>
+<body>
+  <h1>All Orders</h1>
+  <div class="orders" id="ordersContainer"></div>
+
+  <script>
+    let orders = JSON.parse(localStorage.getItem("orders")) || [];
+    const container = document.getElementById("ordersContainer");
+
+    if (orders.length === 0) {
+      container.innerHTML = `<p class="no-orders">No orders have been placed yet.</p>`;
+    } else {
+      orders.forEach((order, index) => {
+        let itemsHTML = order.items.map(item => `
+          <li>${item.name} - ₹${item.price.toFixed(2)}</li>
+        `).join("");
+
+        container.innerHTML += `
+          <div class="order">
+            <h2>Order #${index + 1}</h2>
+            <div class="customer">
+              <strong>Customer:</strong> ${order.customer.name}<br>
+              <strong>Email:</strong> ${order.customer.email}<br>
+              <strong>Address:</strong> ${order.customer.address}<br>
+              <strong>Payment:</strong> ${order.customer.payment}
+            </div>
+            <ul class="items">${itemsHTML}</ul>
+            <div class="total">Total: ₹${order.total.toFixed(2)}</div>
+            <div class="date">Placed on: ${order.date}</div>
+          </div>
+        `;
+      });
+    }
+  </script>
+</body>
+</html>

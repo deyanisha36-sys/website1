@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Thank You — T-Shirt Store</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f4f4f4;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    .thankyou-box {
+      background: white;
+      padding: 40px;
+      border-radius: 8px;
+      text-align: center;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h1 {
+      color: green;
+      margin-bottom: 20px;
+    }
+    p {
+      margin-bottom: 15px;
+    }
+    .order-id {
+      font-weight: bold;
+      color: #333;
+      margin-bottom: 25px;
+    }
+    a {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #333;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+      margin: 5px;
+    }
+    a:hover {
+      background: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="thankyou-box">
+    <h1>✅ Thank You!</h1>
+    <p>Your order has been placed successfully.</p>
+    <p class="order-id" id="orderIDDisplay"></p>
+    <a href="index.html">🏠 Back to Home</a>
+    <a href="shop.html">🛍 Continue Shopping</a>
+  </div>
+
+  <script>
+    // Get Order ID from URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const orderID = urlParams.get("orderID");
+
+    // Display Order ID
+    const orderIDDisplay = document.getElementById("orderIDDisplay");
+    if(orderID) {
+      orderIDDisplay.textContent = "Your Order ID: " + orderID;
+    }
+  </script>
+</body>
+</html>
